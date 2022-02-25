@@ -1,0 +1,10 @@
+__pycache__/
+.ipynb_checkpoints/
+nohup.out
+results/*
+dataset/*
+nerf_tutorial.egg-info/
+Dockerfile
+
+!.gitkeep
+!ckpt
