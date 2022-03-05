@@ -135,7 +135,7 @@ $ colmap model_converter \
 
 ## 2: NeRFを使った復元
 以降では、COLMAPで推定したカメラパラメータを利用して、NeRFモデルの学習と3次元復元を行います。
-[Github上の実装](https://github.com/ALBERT-Inc/research_and_development/tree/research/colmap_to_nerf/projects/colmap_to_nerf)及び[notebook](https://github.com/ALBERT-Inc/research_and_development/blob/research/colmap_to_nerf/projects/colmap_to_nerf/notebook/how_to_use_nerf.ipynb)を参考に紹介していきます。
+本実装を参考に紹介していきます。
 
 ### 2.1: COLMAP推定結果(txtファイル)の読み取り
 COLMAP推定結果(txtファイル)には、`cameras.txt`、`images.txt`、`points3D.txt`の3ファイルが含まれます。それぞれのファイルには行単位で以下の内容が含まれています(詳細情報はtxtファイルのヘッダーに記述されています)。
@@ -175,7 +175,7 @@ COLMAP出力の回転行列は世界座標系からカメラ座標系への変�
 NeRFでは、シーンの世界座標にPositional Encodingの情報を付与してレンダリングを行います。Positional Encodingでは、sin関数やcos関数を使っているため、入力となる世界座標は-1から1の範囲に収まるように正規化する必要があります。世界座標の正規化には、COLMAPで復元されたカメラポーズ行列と点群を利用します。ポーズ行列内のカメラ位置(Translation)と、画像に対応づけられた点群との距離を求めることで、おおよそのレンダリング範囲が特定できます。レンダリング範囲の内、最も遠いレンダリング距離を使って世界座標を割ることで、-1から1の範囲に収まるようにします。
 
 ### 2.3: NeRFモデルの学習
-[Githubの実装](https://github.com/ALBERT-Inc/research_and_development/tree/research/colmap_to_nerf/projects/colmap_to_nerf)では、オリジナルのNeRFモデルに加えて、カメラパラメータの修正を行えるBARFモデルやNeRF--モデルを学習できます。(各モデルについては[ブログ記事](https://blog.albert2005.co.jp/2021/10/21/nerf-without-camera-parameters/)を参照してください)。実装されているモデルに関する設定は全てNeRFConfigクラスに渡す引数で制御します。NeRFConfigクラスについて、デフォルトの設定ではオリジナルNeRFモデルの設定となっていて、その他のモデルを呼び出す際の引数としては、それぞれ以下の引数を設定する必要があります。
+本実装では、オリジナルのNeRFモデルに加えて、カメラパラメータの修正を行えるBARFモデルやNeRF--モデルを学習できます。(各モデルについては[ブログ記事](https://blog.albert2005.co.jp/2021/10/21/nerf-without-camera-parameters/)を参照してください)。実装されているモデルに関する設定は全てNeRFConfigクラスに渡す引数で制御します。NeRFConfigクラスについて、デフォルトの設定ではオリジナルNeRFモデルの設定となっていて、その他のモデルを呼び出す際の引数としては、それぞれ以下の引数を設定する必要があります。
 
 - カメラパラメータ調整全体
     - normalize_focals: 焦点距離を画像縦横サイズに対する比率で表すか否か
